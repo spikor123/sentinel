@@ -86,10 +86,13 @@ resumereview/
 student-trip-planner/
 todolist/
 vs code project/
+mma-gym-site/
+wasm-zip/
 
-# Keep only the major projects for the portfolio
+# Keep only the Sentinel project
 !sentinel-ai/
-!mma-gym-site/
-!wasm-zip/
 !README.md
 !*.cpp
+!*.gitignore
+!*.json
+!*.js
