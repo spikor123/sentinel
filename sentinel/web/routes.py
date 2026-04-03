@@ -26,11 +26,22 @@ def logout():
     logout_user()
     return redirect(url_for('main.login'))
 
+from pyngrok import ngrok
+
 @bp.route('/')
 @login_required
 def dashboard():
     today = date.today()
     
+    # Check for active ngrok tunnel (Remote Access)
+    public_url = None
+    try:
+        tunnels = ngrok.get_tunnels()
+        if tunnels:
+            public_url = tunnels[0].public_url
+    except:
+        pass
+
     # 1. Dashboard summary stats
     # BUG FIX: Use max() instead of sum() to avoid multiplier effect in 'Total Screen Time'
     total_duration = db.session.query(func.max(AppUsage.duration_seconds))\
@@ -58,7 +69,8 @@ def dashboard():
                           labels=labels,
                           values=values,
                           limit_reached=limit_reached,
-                          settings=settings)
+                          settings=settings,
+                          public_url=public_url)
 
 @bp.route('/blacklist', methods=['GET', 'POST'])
 @login_required

@@ -9,6 +9,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from core.monitor import SentinelMonitor
 from web.app import create_app
 
+from pyngrok import ngrok
+
 def start_monitoring():
     monitor = SentinelMonitor()
     monitor.monitor_loop()
@@ -17,6 +19,19 @@ if __name__ == "__main__":
     print("-" * 40)
     print("      SENTINEL PARENTAL CONTROL      ")
     print("-" * 40)
+    
+    # 1. OPTIONAL REMOTE ACCESS (NGROK)
+    public_url = None
+    if "--remote" in sys.argv:
+        print("[*] Establishing Secure Tunnel (ngrok)...")
+        try:
+            # Ngrok requires your auth token: ngrok config add-authtoken <YOUR_TOKEN>
+            tunnel = ngrok.connect(5000)
+            public_url = tunnel.public_url
+            print(f"[!] REMOTE ACCESS LIVE at: {public_url}")
+        except Exception as e:
+            print(f"[!] Warning: Remote tunnel failed. {e}")
+
     print("[*] Starting Background Monitor...")
     
     # Start monitor in a background thread

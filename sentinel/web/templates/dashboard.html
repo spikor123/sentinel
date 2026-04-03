@@ -67,6 +67,19 @@
                     Enforcement: <span class="badge bg-primary">ENABLED</span>
                 </li>
             </ul>
+            
+            {% if public_url %}
+            <div class="mt-4 p-3 border border-info rounded-3 bg-opacity-10 bg-info">
+                <h6 class="text-info mb-1"><i class="fas fa-globe me-2"></i>Remote Access</h6>
+                <a href="{{ public_url }}" target="_blank" class="text-white small text-decoration-none text-truncate d-block">{{ public_url }}</a>
+            </div>
+            {% else %}
+            <div class="mt-4 p-3 border border-secondary rounded-3">
+                <h6 class="text-secondary mb-1 small"><i class="fas fa-wifi me-2"></i>Local Access Only</h6>
+                <p class="text-secondary m-0" style="font-size: 0.75rem;">Run with --remote to enable tunnel</p>
+            </div>
+            {% endif %}
+
             <div class="mt-4">
                 <a href="{{ url_for('main.blacklist') }}" class="btn btn-outline-info w-100 mb-2">Manage Blacklist</a>
                 <a href="{{ url_for('main.settings') }}" class="btn btn-outline-warning w-100">Adjust Time Limits</a>
