@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Sentinel - Login{% endblock %}
+
+{% block extra_css %}
+.login-container {
+    max-width: 400px;
+    margin-top: 100px;
+}
+.login-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5 login-container">
+        <div class="glass-card">
+            <div class="login-header">
+                <i class="fa-solid fa-lock fa-3x text-accent mb-3" style="color: var(--accent-color)"></i>
+                <h2 class="fw-bold">Parental Access</h2>
+                <p class="text-secondary">Enter your secure credentials to manage Sentinel</p>
+            </div>
+            
+            <form method="POST">
+                <div class="mb-3">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control bg-dark text-white border-secondary" placeholder="admin" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control bg-dark text-white border-secondary" placeholder="********" required>
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary py-2 text-dark fw-bold">Login to Sentinel</button>
+                </div>
+            </form>
+            <div class="mt-4 text-center">
+                <small class="text-secondary">Default login: admin / admin123</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

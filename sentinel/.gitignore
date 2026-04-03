@@ -1,0 +1,28 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Database files
+*.db
+*.db-journal
+*.db-shm
+*.db-wal
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# VS Code
+.vscode/
+
+# Project-specific logs
+sentinel.log
+
+# Scratch files
+check_db.py
+get_tables.py
+clear_usage.py
+test_unblock.py

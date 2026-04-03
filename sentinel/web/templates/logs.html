@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Activity Logs | Sentinel{% endblock %}
+
+{% block content %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="glass-card shadow-lg">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4 class="fw-bold"><i class="fa-solid fa-list-ul me-2 text-accent" style="color: var(--accent-color)"></i>Full Activity History</h4>
+                <div class="text-secondary small">Showing most recent 50 entries</div>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table table-dark table-hover border-secondary table-sm">
+                    <thead class="text-secondary small text-uppercase">
+                        <tr>
+                            <th>APP EXEC NAME</th>
+                            <th class="text-center">USER</th>
+                            <th class="text-center">FIRST SEEN</th>
+                            <th class="text-center">LAST SEEN</th>
+                            <th class="text-center">TOTAL TIME</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if logs %}
+                            {% for log in logs %}
+                            <tr class="align-middle">
+                                <td class="fw-bold"><code class="text-accent">{{ log.executable_name }}</code></td>
+                                <td class="text-center text-secondary small">{{ log.username }}</td>
+                                <td class="text-center small">{{ log.start_time.strftime('%H:%M:%S') }}</td>
+                                <td class="text-center small text-secondary">
+                                    {% if log.end_time %}
+                                        {{ log.end_time.strftime('%H:%M:%S') }}
+                                    {% else %}
+                                        ACTIVE
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    {% if log.duration_seconds > 60 %}
+                                        {{ (log.duration_seconds / 60) | int }}<small class="text-secondary">m</small> 
+                                        {{ (log.duration_seconds % 60) }}<small class="text-secondary">sec</small>
+                                    {% else %}
+                                        {{ log.duration_seconds }}<small class="text-secondary">sec</small>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="5" class="text-center py-4 text-secondary">No activity logs recorded yet. Start using apps to see data!</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 text-center">
+                <small class="text-secondary">All timestamps are recorded in UTC.</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

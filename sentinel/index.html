@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sentinel | OS-Based Parental Control</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #643-295-320; /* Placeholder but will replace with premium colors */
+            --accent: #5e60ce;
+            --bg: #0a0b10;
+            --card-bg: #141620;
+            --text: #e0e0e0;
+            --text-dim: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* --- Header & Hero --- */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at 50% 30%, rgba(94, 96, 206, 0.15) 0%, transparent 60%);
+        }
+
+        .badge {
+            background: rgba(94, 96, 206, 0.2);
+            color: var(--accent);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 1px solid rgba(94, 96, 206, 0.4);
+        }
+
+        h1 {
+            font-size: 5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-sub {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 600px;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            background: var(--accent);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(94, 96, 206, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(94, 96, 206, 0.5);
+        }
+
+        /* --- Dashboard Preview --- */
+        .preview-section {
+            padding: 4rem 0;
+            text-align: center;
+        }
+
+        .preview-container {
+            position: relative;
+            max-width: 1000px;
+            margin: 0 auto;
+            border-radius: 20px;
+            background: #1a1c2a;
+            padding: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            overflow: hidden;
+            box-shadow: 0 50px 100px rgba(0,0,0,0.5);
+        }
+
+        .preview-container img {
+            width: 100%;
+            border-radius: 12px;
+            display: block;
+        }
+
+        /* --- Features --- */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 8rem 0;
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 3rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: border 0.3s ease;
+        }
+
+        .card:hover {
+            border-color: var(--accent);
+        }
+
+        .card i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+        }
+
+        .card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        /* --- Technical --- */
+        .tech {
+            padding: 8rem 0;
+            text-align: center;
+        }
+
+        .tech-grid {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 3rem;
+            margin-top: 4rem;
+        }
+
+        .tech-item {
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+        }
+
+        .tech-item:hover {
+            opacity: 1;
+        }
+
+        .tech-item i {
+            font-size: 3rem;
+        }
+
+        footer {
+            padding: 4rem 0;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-dim);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <span class="badge">B.Tech Final Project</span>
+        <h1>Sentinel</h1>
+        <p class="hero-sub">The ultimate OS-level parental control and application monitoring system for modern Windows environments.</p>
+        <a href="https://github.com/spikor123/sentinel" class="btn"><i class="fab fa-github me-2"></i> View Repository</a>
+    </header>
+
+    <div class="container">
+        <section class="preview-section">
+            <div class="preview-container">
+                <!-- Fallback to placeholder if the copied image hasn't arrived/named differently -->
+                <img src="assets/dashboard_preview.png" alt="Sentinel Dashboard Preview" onerror="this.src='https://placehold.co/1200x800/1a1c2a/white?text=Sentinel+Dashboard+Preview'">
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="card">
+                <i class="fas fa-shield-halved"></i>
+                <h3>OS-Level Tracking</h3>
+                <p>Unlike browser extensions, Sentinel monitors every process on your PC, from system apps to high-end games.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-clock"></i>
+                <h3>Screen Time Enforcement</h3>
+                <p>Intelligent timers that automatically lock the Windows user session when daily limits are exceeded.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-chart-line"></i>
+                <h3>Remote Analytics</h3>
+                <p>A beautiful dashboard featuring real-time Chart.js visuals of your most used applications.</p>
+            </div>
+        </section>
+
+        <section class="tech">
+            <h2 style="font-size: 2.5rem">Built With Premium Tech</h2>
+            <div class="tech-grid">
+                <div class="tech-item"><i class="fab fa-python"></i><p>Python</p></div>
+                <div class="tech-item"><i class="fas fa-database"></i><p>SQLAlchemy</p></div>
+                <div class="tech-item"><i class="fab fa-bootstrap"></i><p>Bootstrap 5</p></div>
+                <div class="tech-item"><i class="fas fa-server"></i><p>Flask</p></div>
+            </div>
+        </section>
+    </div>
+
+    <footer>
+        <p>© 2026 Sentinel Parental Control System. Licensed under MIT.</p>
+    </footer>
+
+</body>
+</html>

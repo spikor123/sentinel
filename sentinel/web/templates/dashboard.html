@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard | Sentinel{% endblock %}
+
+{% block extra_css %}
+.stat-card {
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.stat-card:hover { transform: translateY(-5px); }
+.text-accent { color: var(--accent-color); }
+.chart-container {
+    height: 350px;
+    margin-top: 2rem;
+}
+{% endblock %}
+
+{% block content %}
+<div class="row g-4 mt-2">
+    <!-- Total Usage Stat Card -->
+    <div class="col-md-6 col-lg-3">
+        <div class="glass-card stat-card shadow-lg">
+            <h6 class="text-secondary mb-1">Today's Usage</h6>
+            <h3 class="fw-bold text-accent">{{ total_hours }} <small class="fs-6">Hours</small></h3>
+            <div class="progress mt-3" style="height: 6px; background-color: rgba(255,255,255,0.1);">
+                {% set progress = (total_hours * 100 / (settings.total_screen_time_limit_minutes / 60)) | round %}
+                <div class="progress-bar bg-accent" role="progressbar" style="width: {{ progress }}%; background-color: var(--accent-color)"></div>
+            </div>
+            <p class="mt-2 mb-0 small text-secondary">Limit: {{ (settings.total_screen_time_limit_minutes / 60) | int }} hours</p>
+        </div>
+    </div>
+    
+    <!-- Status Dashboard Alert Card -->
+    <div class="col-md-6 col-lg-3">
+        <div class="glass-card stat-card shadow-lg {% if limit_reached %}border-danger{% else %}border-success{% endif %}">
+            <h6 class="text-secondary mb-1">Screen Status</h6>
+            {% if limit_reached %}
+                <h3 class="fw-bold text-danger">LOCKED</h3>
+                <p class="mb-0 small text-secondary">Time Limit Exceeded</p>
+            {% else %}
+                <h3 class="fw-bold text-success">ALLOWED</h3>
+                <p class="mb-0 small text-secondary">Within Safety Limits</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row mt-4">
+    <div class="col-lg-8">
+        <div class="glass-card">
+            <h5 class="fw-bold mb-4">Top 5 Applications Today</h5>
+            <div class="chart-container">
+                <canvas id="usageChart"></canvas>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-lg-4">
+        <div class="glass-card">
+            <h5 class="fw-bold mb-4">System Shield</h5>
+            <ul class="list-group list-group-flush bg-transparent">
+                <li class="list-group-item bg-transparent text-secondary border-secondary d-flex justify-content-between align-items-center">
+                    Monitoring: <span class="badge bg-success">ACTIVE</span>
+                </li>
+                <li class="list-group-item bg-transparent text-secondary border-secondary d-flex justify-content-between align-items-center">
+                    Enforcement: <span class="badge bg-primary">ENABLED</span>
+                </li>
+            </ul>
+            <div class="mt-4">
+                <a href="{{ url_for('main.blacklist') }}" class="btn btn-outline-info w-100 mb-2">Manage Blacklist</a>
+                <a href="{{ url_for('main.settings') }}" class="btn btn-outline-warning w-100">Adjust Time Limits</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('usageChart').getContext('2d');
+    
+    // Gradient for the bars
+    const gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, '#38bdf8');
+    gradient.addColorStop(1, 'rgba(56, 189, 248, 0.1)');
+
+    const chartData = {
+        labels: {{ labels | tojson }},
+        datasets: [{
+            label: 'Minutes Used',
+            data: {{ values | tojson }},
+            backgroundColor: gradient,
+            borderColor: '#38bdf8',
+            borderWidth: 1,
+            borderRadius: 8,
+            barThickness: 40
+        }]
+    };
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: chartData,
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: { display: false }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: { color: 'rgba(255,255,255,0.05)' },
+                    ticks: { color: '#94a3b8' }
+                },
+                x: {
+                    grid: { display: false },
+                    ticks: { color: '#94a3b8' }
+                }
+            }
+        }
+    });
+</script>
+{% endblock %}

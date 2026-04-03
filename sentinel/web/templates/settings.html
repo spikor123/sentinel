@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}System Settings | Sentinel{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-6 col-lg-5">
+        <div class="glass-card shadow-lg">
+            <h4 class="fw-bold mb-4 text-accent"><i class="fa-solid fa-cog me-2"></i>Global Time Limits</h4>
+            <p class="text-secondary small mb-4">Set the total amount of time a standard user can spend on the system before the workstation is automatically locked.</p>
+            
+            <form method="POST">
+                <div class="mb-4">
+                    <label class="form-label text-white">Daily Screen Time Limit (Minutes)</label>
+                    <div class="input-group">
+                        <input type="number" name="limit" value="{{ settings.total_screen_time_limit_minutes }}" class="form-control bg-dark text-white border-secondary py-2" placeholder="480" required>
+                        <span class="input-group-text bg-dark text-secondary border-secondary">min</span>
+                    </div>
+                    <div class="mt-2 text-secondary small">Current: {{ (settings.total_screen_time_limit_minutes / 60) | round(1) }} hours</div>
+                </div>
+                
+                <div class="d-grid mt-4">
+                    <button type="submit" class="btn btn-primary text-dark fw-bold py-2">Save All Changes</button>
+                </div>
+            </form>
+            
+            <div class="mt-5 pt-3 border-top border-secondary">
+                <h6 class="text-secondary mb-3">System Information</h6>
+                <div class="small d-flex justify-content-between mb-1">
+                    <span class="text-secondary">Sentinel Core:</span>
+                    <span class="text-accent">v1.0.0 Stable</span>
+                </div>
+                <div class="small d-flex justify-content-between">
+                    <span class="text-secondary">Platform:</span>
+                    <span class="text-accent">Windows 10/11</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

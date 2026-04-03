@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Blacklist Management | Sentinel{% endblock %}
+
+{% block content %}
+<div class="row g-4 mt-2">
+    <!-- Add New Blacklist Item Form -->
+    <div class="col-lg-4">
+        <div class="glass-card shadow-lg sticky-top" style="top: 100px;">
+            <h5 class="fw-bold mb-3"><i class="fa-solid fa-plus-circle me-2 text-accent" style="color: var(--accent-color)"></i>Block New Application</h5>
+            <p class="small text-secondary mb-4">Add the exact executable name (e.g., `chrome.exe`) to prevent it from running.</p>
+            
+            <form method="POST" id="blacklistForm">
+                <div class="mb-3">
+                    <label class="form-label small text-secondary">Executable Name</label>
+                    <input type="text" id="execName" name="executable_name" class="form-control bg-dark text-white border-secondary" placeholder="notepad.exe" required>
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small text-secondary">Friendly Label (Optional)</label>
+                    <input type="text" id="friendlyName" name="friendly_name" class="form-control bg-dark text-white border-secondary" placeholder="Word Processor">
+                </div>
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-primary text-dark fw-bold">Add to Blacklist</button>
+                </div>
+            </form>
+
+            {% if suggestions %}
+            <div class="mt-4 pt-3 border-top border-secondary">
+                <h6 class="small fw-bold text-secondary text-uppercase mb-3">Recently Active Apps</h6>
+                <div class="list-group list-group-flush bg-transparent">
+                    {% for app in suggestions %}
+                    <button type="button" 
+                            onclick="fillForm('{{ app[0] }}')"
+                            class="list-group-item list-group-item-action bg-transparent text-white border-0 py-2 px-0 d-flex justify-content-between align-items-center">
+                        <span class="small"><code class="text-info">{{ app[0] }}</code></span>
+                        <i class="fa-solid fa-plus-circle text-accent opacity-50"></i>
+                    </button>
+                    {% endfor %}
+                </div>
+                <script>
+                    function fillForm(name) {
+                        document.getElementById('execName').value = name;
+                        document.getElementById('friendlyName').value = name.split('.')[0].toUpperCase();
+                        document.getElementById('execName').focus();
+                    }
+                </script>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <!-- Current Blacklist Table -->
+    <div class="col-lg-8">
+        <div class="glass-card shadow-lg">
+            <h5 class="fw-bold mb-4"><i class="fa-solid fa-ban me-2 text-danger"></i>Active Blacklist</h5>
+            
+            <div class="table-responsive">
+                <table class="table table-dark table-hover border-secondary mt-2">
+                    <thead class="text-secondary small">
+                        <tr>
+                            <th>APPLICATION NAME</th>
+                            <th>LABEL</th>
+                            <th>STATUS</th>
+                            <th class="text-center">ACTION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if items %}
+                            {% for item in items %}
+                            <tr class="align-middle">
+                                <td><code class="text-accent">{{ item.executable_name }}</code></td>
+                                <td>{{ item.friendly_name }}</td>
+                                <td><span class="badge bg-danger">BLOCKED</span></td>
+                                <td class="text-center">
+                                    <a href="{{ url_for('main.remove_blacklist', id=item.id) }}" class="btn btn-sm btn-outline-danger" title="Unblock">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center py-4 text-secondary">No applications are currently blocked.</td>
+                            </tr>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="mt-4 p-3 bg-dark border border-secondary rounded-3">
+                <small class="text-secondary"><i class="fa-solid fa-info-circle me-1"></i>Note: Changes may take up to 5 seconds to reflect on the user's computer.</small>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

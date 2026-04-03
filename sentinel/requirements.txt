@@ -1,0 +1,8 @@
+flask
+flask-sqlalchemy
+flask-login
+psutil
+pywin32
+pytz
+sqlalchemy
+bcrypt
